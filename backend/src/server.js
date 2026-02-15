@@ -8,10 +8,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Explicitly load .env from backend folder (absolute path)
-dotenv.config({ path: path.join(__dirname, ".env") });
+dotenv.config({ path: path.join(__dirname, "../.env") });
 
 // Debug info
-console.log("🧩 Loading .env from:", path.join(__dirname, ".env"));
+console.log("🧩 Loading .env from:", path.join(__dirname, "../.env"));
 console.log("🔹 DB_URL:", process.env.DB_URL ? "Loaded ✅" : "❌ Not loaded");
 
 // ✅ Import dependencies
@@ -43,6 +43,10 @@ app.get("/health", (req, res) => {
   res.status(200).json({ msg: "✅ API is up and running" });
 });
 
+app.get("/api/test", (req, res) => {
+  res.status(200).json({ msg: "✅ Test route works" });
+});
+
 // ✅ Extra DB status route for debugging
 import mongoose from "mongoose";
 app.get("/db-status", (req, res) => {
@@ -66,7 +70,7 @@ const startServer = async () => {
   try {
     await connectDB();
     app.listen(ENV.PORT, () =>
-      console.log(`🚀 Server running on port ${ENV.PORT}`)
+      console.log(`🚀 Server fully started and listening on http://localhost:${ENV.PORT}`)
     );
   } catch (error) {
     console.error("💥 Error starting the server:", error);
